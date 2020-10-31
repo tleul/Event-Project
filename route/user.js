@@ -2,22 +2,22 @@ const express = require('express');
 
 const router = express.Router();
 
-//Create Customer
+//Create User -- Sign Up
 router.post('/', (req, res) => {
 	res.send(`<h1> Sign Up<h1>`);
 });
 
-//Get Customer
+//Get User -- Login
 router.get('/', (req, res) => {
-	console.log('Customer List ');
+	console.log('User Loged in');
 });
 
-//Delete Customer
+//Delete User -- Remove
 router.delete('/', (req, res) => {
 	res.send(`<h1> Thank you succesfully Unsubscripe<h1>`);
 });
 
-//Update Customer
+//Update User -- Update Some Information
 router.put('/', (req, res) => {
 	res.send(`<h1> Thank you succesfully Unsubscripe<h1>`);
 });
