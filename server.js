@@ -1,6 +1,6 @@
 const express = require('express');
 const morgan = require('morgan');
-const Catagory = require('./module/Category');
+
 const app = express();
 const config = require('config');
 const dbConnection = require('./dbConnection/db');
