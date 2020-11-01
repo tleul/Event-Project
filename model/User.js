@@ -25,7 +25,7 @@ const User = mongoose.model('User', UserSchema);
 
 function userValidator(user) {
 	const schema = Joi.object({
-		name: Joi.string().min(5).required(),
+		name: Joi.string().min(2).required(),
 		email: Joi.string().email().required(),
 		password: Joi.string().min(6).max(15).required(),
 		isAdmin: Joi.boolean().required(),
@@ -33,9 +33,24 @@ function userValidator(user) {
 	return schema.validate(user);
 }
 
-function userauth() {
-	const token = jwt.sign({ id: this._id }, 'auth_secrete');
-	return token;
+function generateToken(response) {
+	console.log(response);
+	const payload = {
+		_id: response._id,
+		name: response.name,
+	};
+	jwt.sign(
+		payload,
+		process.env.JWT_SECRET,
+		{ expiresIn: 360000 },
+		(err, token) => {
+			if (err) {
+				throw err;
+			}
+			console.log(token);
+			return token;
+		},
+	);
 }
 
-module.exports = { User, userValidator, userauth };
+module.exports = { User, userValidator, generateToken };
