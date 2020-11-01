@@ -1,10 +1,9 @@
 const express = require('express');
 const { userValidator } = require('../model/User');
-const { User, userauth } = require('../model/User');
+const { User, generateToken } = require('../model/User');
 const bcrypt = require('bcrypt');
-const { json } = require('express');
 const router = express.Router();
-
+const auth = require('../modules/auth');
 //Create User -- Sign Up
 router.post('/', async (req, res) => {
 	const { error } = userValidator(req.body);
@@ -13,7 +12,7 @@ router.post('/', async (req, res) => {
 	try {
 		//Check is the user Exists
 		const checkuser = await User.findOne({ email: email });
-		if (checkuser.length > 0)
+		if (checkuser)
 			return res.status(400).json({ msg: ' User already exist' });
 		//Generate Salt
 		const salt = await bcrypt.genSalt(10);
@@ -29,11 +28,11 @@ router.post('/', async (req, res) => {
 
 		const response = await user.save();
 
-		const token = userauth();
+		const token = generateToken(response);
 
-		return res.status(200).header('x-auth-user', token).send();
+		return res.status(200).header('x-auth-user', token).send(response);
 	} catch (error) {
-		res.status(400).json({ msg: 'Internal Server Error ' });
+		res.status(400).json(error.message);
 	}
 });
 
@@ -49,18 +48,36 @@ router.get('/', async (req, res) => {
 	if (!check)
 		return res.status(401).json({ msg: 'Wrong user name or password ' });
 
-	const token = userauth();
-	return res.status(200).header('x-auth-user', token).json();
+	const token = generateToken(user);
+	return res.status(200).header('x-auth-user', token).json(user);
 });
 
 //Delete User -- Remove
-router.delete('/', (req, res) => {
-	const token = req.header('x-auth-user');
-	if (!token) return res.status(401).json({ msg: 'Not authorized' });
+router.delete('/', auth, async (req, res) => {
+	const user = await User.findByIdAndDelete(req.user._id);
+	return res.status(200).json({ msg: 'User deleted Succesfuly' });
 });
 
 //Update User -- Update Some Information
-router.put('/', (req, res) => {
-	res.send(`<h1> Thank you succesfully Unsubscripe<h1>`);
+router.put('/', auth, async (req, res) => {
+	const { name, email, password } = req.body;
+	const user = await User.findById(req.user._id);
+	console.log(name);
+	const updateUser = {
+		name: name ? name : user.name,
+		email: email ? email : user.email,
+	};
+
+	const newuser = await User.findByIdAndUpdate(
+		req.user._id,
+		{
+			$set: {
+				name: updateUser.name,
+				email: updateUser.email,
+			},
+		},
+		{ new: true },
+	);
+	return res.status(200).json(newuser);
 });
 module.exports = router;

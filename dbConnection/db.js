@@ -4,7 +4,11 @@ const dbConnection = () => {
 	try {
 		mongoose.connect(
 			process.env.MONGO_DB_URI,
-			{ useNewUrlParser: true, useUnifiedTopology: true },
+			{
+				useNewUrlParser: true,
+				useUnifiedTopology: true,
+				useFindAndModify: false,
+			},
 			console.log('Connected'),
 		);
 	} catch (error) {
