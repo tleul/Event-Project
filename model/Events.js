@@ -1,38 +1,45 @@
 const mongoose = require('mongoose');
 const Catagory = require('./Category');
-const Caragory = require('./Category');
-const Schema = mongoose.Schema;
 
+const Schema = mongoose.Schema;
+const Joi = require('joi');
 const EventSchema = new Schema({
-	EventName: {
+	eventName: {
 		type: String,
 		required: true,
 	},
-	EventDescription: {
+	eventDescription: {
 		type: String,
 		required: true,
 	},
-	EventLocation: {
+	eventLocation: {
 		type: String,
 		required: true,
 	},
-	Active: {
+	active: {
 		type: Boolean,
 		required: true,
 	},
-	AdultTicketPrice: {
+	adultTicketPrice: {
 		type: Number,
 		required: true,
 	},
-	ChildTicketPrice: {
+	childTicketPrice: {
 		type: Number,
 		required: true,
 	},
-	EventCatagory: {
-		type: Catagory,
+	eventCatagory: {
+		type: mongoose.Types.ObjectId,
 		required: true,
 	},
 });
 const Event = mongoose.model('Event', EventSchema);
-
-module.exports = Event;
+const validateEvents = Joi.object({
+	eventName: Joi.string().required().min(3),
+	eventDescription: Joi.string().required().min(3),
+	eventLocation: Joi.string().required().min(6),
+	active: Joi.boolean().required(),
+	adultTicketPrice: Joi.number().required(),
+	childTicketPrice: Joi.number().required(),
+});
+module.exports = { Event, validateEvents };
