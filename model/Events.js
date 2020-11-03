@@ -34,12 +34,17 @@ const EventSchema = new Schema({
 	},
 });
 const Event = mongoose.model('Event', EventSchema);
-const validateEvents = Joi.object({
-	eventName: Joi.string().required().min(3),
-	eventDescription: Joi.string().required().min(3),
-	eventLocation: Joi.string().required().min(6),
-	active: Joi.boolean().required(),
-	adultTicketPrice: Joi.number().required(),
-	childTicketPrice: Joi.number().required(),
-});
+const validateEvents = (event) => {
+	const schema = Joi.object({
+		eventName: Joi.string().required().min(3),
+		eventDescription: Joi.string().required().min(3),
+		eventLocation: Joi.string().required().min(6),
+		active: Joi.boolean().required(),
+		adultTicketPrice: Joi.number().required(),
+		childTicketPrice: Joi.number().required(),
+		catagoryId: Joi.required(),
+	});
+	return schema.validate(event);
+};
+
 module.exports = { Event, validateEvents };
