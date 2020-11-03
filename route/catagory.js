@@ -1,19 +1,20 @@
 const express = require('express');
-
+const auth = require('../modules/auth');
+const admin = require('../modules/admin');
 const router = express.Router();
 
 //Create Catagory
-router.post('/', (req, res) => {
+router.post('/', [auth, admin], (req, res) => {
 	res.send(`Catgory Created `);
 });
 
 //Get Catagory
-router.get('/', (req, res) => {
+router.get('/', [auth, admin], (req, res) => {
 	console.log('Catgory List');
 });
 
 //Delete Catagory -- Remove
-router.delete('/unsubscribe', (req, res) => {
+router.delete('/', [auth, admin], (req, res) => {
 	res.send(`Catagory Deleted`);
 });
 
