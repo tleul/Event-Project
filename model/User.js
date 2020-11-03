@@ -19,6 +19,7 @@ const UserSchema = new Schema({
 	isAdmin: {
 		type: Boolean,
 		required: true,
+		default: false,
 	},
 });
 const User = mongoose.model('User', UserSchema);
@@ -39,18 +40,21 @@ function generateToken(response) {
 		_id: response._id,
 		name: response.name,
 	};
-	jwt.sign(
-		payload,
-		process.env.JWT_SECRET,
-		{ expiresIn: 360000 },
-		(err, token) => {
-			if (err) {
-				throw err;
-			}
-			console.log(token);
-			return token;
-		},
-	);
+	const token = jwt.sign(payload, process.env.JWT_SECRET);
+	return token;
+
+	// jwt.sign(
+	// 	payload,
+	// 	process.env.JWT_SECRET,
+	// 	{ expiresIn: 360000 },
+	// 	(err, token) => {
+	// 		if (err) {
+	// 			throw err;
+	// 		}
+
+	// 		return token;
+	// 	},
+	// );
 }
 
 module.exports = { User, userValidator, generateToken };
