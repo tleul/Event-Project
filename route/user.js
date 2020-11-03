@@ -49,6 +49,7 @@ router.get('/', async (req, res) => {
 		return res.status(401).json({ msg: 'Wrong user name or password ' });
 
 	const token = generateToken(user);
+
 	return res.status(200).header('x-auth-user', token).json(user);
 });
 
