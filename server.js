@@ -1,5 +1,6 @@
 const express = require('express');
 const morgan = require('morgan');
+const cors = require('cors');
 
 const app = express();
 const config = require('config');
@@ -7,6 +8,7 @@ const dbConnection = require('./dbConnection/db');
 require('dotenv').config();
 PORT = process.env.PORT || 8000;
 dbConnection();
+app.use(cors());
 app.use(express.json());
 app.use(morgan('tiny'));
 // app.get('/', (req, res) => {
