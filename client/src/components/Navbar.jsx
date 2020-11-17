@@ -25,19 +25,26 @@ const Navbar = () => {
 					id='navbarSupportedContent'>
 					<ul class='navbar-nav mr-auto'>
 						<li class='nav-item active'>
-							<a class='nav-link' href='#'>
+							<Link class='nav-link' to='#'>
 								Events <span class='sr-only'>(current)</span>
-							</a>
+							</Link>
 						</li>
 						<li class='nav-item active'>
-							<a class='nav-link' href='#'>
+							<Link class='nav-link' to='#'>
 								Customers <span class='sr-only'>(current)</span>
-							</a>
+							</Link>
 						</li>
 						<li class='nav-item active'>
-							<a class='nav-link' href='#'>
-								Orders <span class='sr-only'>(current)</span>
-							</a>
+							<Link class='nav-link' to='/categories'>
+								Add Categories{' '}
+								<span class='sr-only'>(current)</span>
+							</Link>
+						</li>
+						<li class='nav-item active'>
+							<Link class='nav-link' to='/categories'>
+								Add Events{' '}
+								<span class='sr-only'>(current)</span>
+							</Link>
 						</li>
 					</ul>
 				</div>
