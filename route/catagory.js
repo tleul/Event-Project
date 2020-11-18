@@ -5,24 +5,23 @@ const { Catagory, validateCatagory } = require('../model/Category');
 const router = express.Router();
 
 //Create Catagory
-router.post('/', [auth, admin], async (req, res) => {
+//TODO [auth, admin],
+router.post('/', async (req, res) => {
 	const { categoryName, categoryDesc, active } = req.body;
 	const { error } = validateCatagory(req.body);
 	const catagory = await Catagory.findOne({ categoryName });
-
 	try {
 		if (error || catagory)
 			return res.status(400).json({
 				msg: error ? error : 'The catagory name is already Exist',
 			});
-
 		const newcatagory = new Catagory({
 			categoryName,
 			categoryDesc,
 			active,
 		});
-
 		const response = await newcatagory.save();
+		console.log(response);
 		return res.status(200).json(response);
 	} catch (error) {
 		console.log(error);
@@ -31,19 +30,20 @@ router.post('/', [auth, admin], async (req, res) => {
 
 //Get Catagory
 router.get('/', async (req, res) => {
-	const catagory = await Catagory.find();
-	return res.status(200).json(catagory);
+	const category = await Catagory.find();
+	console.log(category);
+	return res.status(200).json(category);
 });
 
-//Delete Catagory -- Remove
-router.delete('/:id', [auth, admin], async (req, res) => {
+//Delete Catagory -- Remove[auth, admin]
+router.delete('/:id', async (req, res) => {
 	const catagory = await Catagory.findByIdAndDelete(req.params.id);
 
 	return res.status(200).json(catagory);
 });
 
-//Update Catagory -- Update  Information
-router.put('/', [auth, admin], async (req, res) => {
+//Update Catagory -- Update  Information[auth, admin]
+router.put('/', async (req, res) => {
 	try {
 		const { categoryName, categoryDesc, active } = req.body;
 
