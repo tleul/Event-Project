@@ -14,7 +14,8 @@ function App() {
 				<Switch>
 					<Route path='/events/:id/:title' component={EventDetails} />
 					<Route path='/categories' component={CategoriesDetails} />
-					<Route path='/addevent' component={EventForm} />
+					<Route path='/addevent/:new?/:id?' component={EventForm} />
+
 					<Route path='/' component={Home} />
 				</Switch>
 			</div>
