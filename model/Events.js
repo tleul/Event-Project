@@ -20,30 +20,35 @@ const EventSchema = new Schema({
 		type: Boolean,
 		required: true,
 	},
-	adult_TicketPrice_number: {
+	adult_Ticket_Price_number: {
 		type: Number,
 		required: true,
 	},
-	child_TicketPrice_number: {
+	child_Ticket_Price_number: {
 		type: Number,
 		required: true,
 	},
-	event_Catagory: {
+	event_category: {
 		type: mongoose.Types.ObjectId,
 		required: true,
 	},
 });
 const Event = mongoose.model('Event', EventSchema);
 const validateEvents = (event) => {
-	const schema = Joi.object({
-		event_Name: Joi.string().required().min(3),
-		event_Description: Joi.string().required().min(3),
-		event_Location: Joi.string().required().min(6),
-		active: Joi.boolean().required(),
-		adult_TicketPrice_number: Joi.number().required(),
-		child_TicketPrice_number: Joi.number().required(),
-		catagoryId: Joi.required(),
-	});
+	const schema = Joi.object(
+		{
+			event_Name: Joi.string().required().min(3),
+			event_Description: Joi.string().required().min(5),
+			event_Location: Joi.string().required().min(6),
+			active: Joi.boolean().required(),
+			adult_Ticket_Price_number: Joi.number().required(),
+			child_Ticket_Price_number: Joi.number().required(),
+			event_category: Joi.required(),
+		},
+		{
+			abortEarly: false,
+		},
+	);
 	return schema.validate(event);
 };
 
