@@ -6,40 +6,43 @@ const { Event, validateEvents } = require('../model/Events');
 const Catagory = require('../model/Category');
 const { response } = require('express');
 const router = express.Router();
-
+// [auth, admin],
 //Create Event
-router.post('/', [auth, admin], async (req, res) => {
+router.post('/', async (req, res) => {
+	console.log(req.body);
 	const { error } = validateEvents(req.body);
+	console.log(error);
 	if (error) return res.status(400).json(error);
 	try {
 		const {
-			eventName,
-			eventDescription,
-			eventLocation,
+			event_Name,
+			event_Description,
+			event_Location,
+			adult_Ticket_Price_number,
+			child_Ticket_Price_number,
 			active,
-			adultTicketPrice,
-			childTicketPrice,
 		} = req.body;
-		let catagoryId = new ObjectId(req.body.catagoryId);
-		console.log(catagoryId);
+		let event_category = new ObjectId(req.body.event_category);
+		console.log(event_category);
 		const event = new Event({
-			eventName,
-			eventDescription,
-			eventLocation,
+			event_Name,
+			event_Description,
+			event_Location,
+			adult_Ticket_Price_number,
+			child_Ticket_Price_number,
 			active,
-			adultTicketPrice,
-			childTicketPrice,
-			eventCatagory: catagoryId,
+			event_category,
 		});
 		const response = await event.save();
+		console.log(response);
 		return res.status(200).json(response);
 	} catch (error) {
 		console.log(error);
 	}
 });
-
+//auth,
 // //Get Events
-router.get('/', auth, async (req, res) => {
+router.get('/', async (req, res) => {
 	const events = await Event.find().sort('active');
 	res.status(200).json(events);
 });
