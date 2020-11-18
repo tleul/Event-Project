@@ -6,7 +6,6 @@ export const categories = [
 ];
 
 export const getCategories = async () => {
-	console.log('hey');
 	const result = await axios.get('http://localhost:8000/api/catagory');
-	return result.data;
+	return result;
 };

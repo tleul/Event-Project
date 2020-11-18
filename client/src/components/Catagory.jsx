@@ -14,14 +14,20 @@ class Catagory extends React.Component {
 	render() {
 		return (
 			<div className='pr-5'>
-				<ul class='list-group'>
-					<li class='list-group-item active text-center'>Catagory</li>
-					<li class='list-group-item text-center '>
-						<Link
-							onClick={() => this.props.filterEvent(null, false)}
-							className='text-dark text-decoration-none'>
-							All Catagory
-						</Link>
+				<ul className='list-group'>
+					<li className='list-group-item active text-center'>
+						Catagory
+					</li>
+					<li className='list-group-item text-center '>
+						<ul>
+							<li
+								onClick={() =>
+									this.props.filterEvent(null, false)
+								}
+								className='text-dark text-decoration-none'>
+								All Catagory
+							</li>
+						</ul>
 					</li>
 					{this.state.catagory.map((cata) => (
 						<Link
