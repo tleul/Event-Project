@@ -107,13 +107,44 @@ class EventForm extends React.Component {
 			}
 		}
 	};
+	getEventData = async () => {
+		let id = this.props.match.params.id;
+		const { data } = await axios.get(
+			`http://localhost:8000/api/event/${id}`,
+		);
+		const {
+			event_Name,
+			event_Description,
+			event_Location,
+			adult_Ticket_Price_number,
+			child_Ticket_Price_number,
+			active,
+			event_category,
+		} = data;
+		const event = {
+			event_Name,
+			event_Description,
+			event_Location,
+			adult_Ticket_Price_number,
+			child_Ticket_Price_number,
+		};
+
+		this.setState({ event, active, event_category });
+	};
+	componentWillMount() {
+		if (this.props.match.params.new) this.getEventData();
+	}
 	render() {
 		return (
 			<>
 				<div className='border border-primary p-5 w-50 mx-auto  '>
 					<section className='text-center pb-10'>
 						<hr />
-						<h3 className='font-bold text-2xl'>Add Event</h3>
+						{this.props.match.params.new ? (
+							<h3 className='font-bold text-2xl'>Update Event</h3>
+						) : (
+							<h3 className='font-bold text-2xl'>Add Event</h3>
+						)}
 						<p className='text-gray-600 pt-2'></p>
 						<p className='text-gray-600 pt-2'>
 							Please fill the form carefully.
@@ -145,6 +176,7 @@ class EventForm extends React.Component {
 							onradiocheck={this.onradiocheck}
 						/>
 						<CategoryList
+							value={this.state.event_category}
 							error={this.state.errors.event_category}
 							categoryselector={this.categoryselector}
 							options={this.state.category}

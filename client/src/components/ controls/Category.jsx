@@ -1,4 +1,4 @@
-const CategoryList = ({ options, categoryselector, error }) => {
+const CategoryList = ({ options, categoryselector, error, value }) => {
 	return (
 		<>
 			<div className='input-group mb-3'>
@@ -6,7 +6,7 @@ const CategoryList = ({ options, categoryselector, error }) => {
 					onChange={categoryselector}
 					className='custom-select btn-outline-success'
 					id='inputGroupSelect02'>
-					<option value=''>Choose...</option>
+					<option>Choose...</option>
 					{options.map((option) => (
 						<option
 							key={option.categoryName}

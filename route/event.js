@@ -4,7 +4,7 @@ const admin = require('../modules/admin');
 var ObjectId = require('mongodb').ObjectID;
 const { Event, validateEvents } = require('../model/Events');
 const Catagory = require('../model/Category');
-const { response } = require('express');
+
 const router = express.Router();
 // [auth, admin],
 //Create Event
@@ -44,6 +44,10 @@ router.post('/', async (req, res) => {
 // //Get Events
 router.get('/', async (req, res) => {
 	const events = await Event.find().sort('active');
+	res.status(200).json(events);
+});
+router.get('/:id', async (req, res) => {
+	const events = await Event.findById(req.params.id);
 	res.status(200).json(events);
 });
 
