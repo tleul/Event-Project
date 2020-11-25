@@ -10,7 +10,7 @@ class Events extends React.Component {
 	getcategoryName = (id) => {
 		console.log(id);
 		const result = this.state.category.filter((cat) => cat._id === id);
-		return result[0].categoryName;
+		return result[0].category_Name;
 	};
 	getData = async () => {
 		// this.setState({ loading: false });
