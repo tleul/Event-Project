@@ -48,6 +48,17 @@ const Navbar = () => {
 								<span className='sr-only'>(current)</span>
 							</Link>
 						</li>
+						<li className='nav-item active'>
+							<Link className='nav-link' to='/addevent'>
+								Login <span className='sr-only'>(current)</span>
+							</Link>
+						</li>
+						<li className='nav-item active'>
+							<Link className='nav-link' to='/addevent'>
+								Signup{' '}
+								<span className='sr-only'>(current)</span>
+							</Link>
+						</li>
 					</ul>
 				</div>
 			</nav>
