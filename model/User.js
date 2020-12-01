@@ -16,7 +16,10 @@ const UserSchema = new Schema({
 		type: String,
 		required: true,
 	},
-	isAdmin: {
+	adminPin: {
+		type: Number,
+	},
+	admin: {
 		type: Boolean,
 		required: true,
 		default: false,
@@ -29,7 +32,7 @@ function userValidator(user) {
 		name: Joi.string().min(2).required(),
 		email: Joi.string().email().required(),
 		password: Joi.string().min(6).max(15).required(),
-		isAdmin: Joi.boolean().required(),
+		admin: Joi.boolean().required(),
 	});
 	return schema.validate(user);
 }

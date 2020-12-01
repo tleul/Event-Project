@@ -18,5 +18,6 @@ app.use(morgan('tiny'));
 app.use('/api/customer', require('./route/customer'));
 app.use('/api/catagory', require('./route/catagory'));
 app.use('/api/event', require('./route/event'));
-app.use('/api/user', require('./route/user'));
+// app.use('/api/user', require('./route/user'));
+app.use('/api/admin', require('./route/admin'));
 app.listen(PORT, console.log(`Server Connected on Port ${PORT}`));

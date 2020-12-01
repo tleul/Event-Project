@@ -25,7 +25,7 @@ const Navbar = () => {
 					id='navbarSupportedContent'>
 					<ul className='navbar-nav mr-auto'>
 						<li className='nav-item active'>
-							<Link className='nav-link' to='#'>
+							<Link className='nav-link' to='/'>
 								Events{' '}
 								<span className='sr-only'>(current)</span>
 							</Link>
@@ -49,12 +49,12 @@ const Navbar = () => {
 							</Link>
 						</li>
 						<li className='nav-item active'>
-							<Link className='nav-link' to='/addevent'>
+							<Link className='nav-link' to='/login'>
 								Login <span className='sr-only'>(current)</span>
 							</Link>
 						</li>
 						<li className='nav-item active'>
-							<Link className='nav-link' to='/addevent'>
+							<Link className='nav-link' to='/signup'>
 								Signup{' '}
 								<span className='sr-only'>(current)</span>
 							</Link>

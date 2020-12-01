@@ -2,6 +2,7 @@ import React from 'react';
 import { filterEvent, getEvents } from '../resources/fakeEventService';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import API from '../services/api';
 class Events extends React.Component {
 	state = {
 		events: [],
@@ -10,19 +11,12 @@ class Events extends React.Component {
 	getcategoryName = (id) => {
 		console.log(id);
 		const result = this.state.category.filter((cat) => cat._id === id);
-		return result[0].category_Name;
+		// return result[0].category_Name;
 	};
 	getData = async () => {
-		// this.setState({ loading: false });
-		//
-		// 	const responseTwo = await axios.get(
-		// 		'http://localhost:8000/api/catagory',
-		// 	);
-		// 	this.setState({ category: 'hi' });
-		const response = await axios.get('http://localhost:8000/api/event');
-		const responseTwo = await axios.get(
-			'http://localhost:8000/api/catagory',
-		);
+		const response = await API.get('event');
+		const responseTwo = await API.get('catagory');
+		console.log(response);
 
 		this.setState({ events: response.data, category: responseTwo.data });
 	};
@@ -53,7 +47,7 @@ class Events extends React.Component {
 								</td>
 							</tr>
 						)}
-
+						{/* // category have to be only on the events */}
 						{this.state.events.map((event) => (
 							<tr key={event._id}>
 								<td>
@@ -62,7 +56,8 @@ class Events extends React.Component {
 									</Link>
 								</td>
 								<td>
-									{this.getcategoryName(event.event_category)}
+									{/* {this.getcategoryName(event.event_category)}{' '}
+									 */}
 								</td>
 								<td>{event.event_Location}</td>
 								<td>{event.active.toString()}</td>

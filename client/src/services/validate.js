@@ -29,3 +29,32 @@ export const validateEventForm = (event) => {
 	for (let item of result.error.details) errors[item.path[0]] = item.message;
 	return errors;
 };
+export const validateUser = (user) => {
+	const schema = {
+		email: Joi.string().email().required().label('Email Address'),
+		password: Joi.string().min(6).required().label('Password'),
+	};
+	const result = Joi.validate(user, schema, {
+		abortEarly: false,
+	});
+
+	if (!result.error) return null;
+	const errors = {};
+	for (let item of result.error.details) errors[item.path[0]] = item.message;
+	return errors;
+};
+export const validateUserSignUP = (user) => {
+	const schema = {
+		name: Joi.string().min(3).required().label('Name'),
+		email: Joi.string().email().required().label('Email Address'),
+		password: Joi.string().min(6).required().label('Password'),
+	};
+
+	const result = Joi.validate(user, schema, {
+		abortEarly: false,
+	});
+	if (!result.error) return null;
+	const errors = {};
+	for (let item of result.error.details) errors[item.path[0]] = item.message;
+	return errors;
+};
