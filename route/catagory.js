@@ -32,7 +32,6 @@ router.post('/', async (req, res) => {
 //Get Catagory
 router.get('/', async (req, res) => {
 	const category = await Catagory.find();
-	console.log(category);
 	return res.status(200).json(category);
 });
 

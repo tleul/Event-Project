@@ -38,6 +38,10 @@ router.post('/', async (req, res) => {
 		res.status(400).json(error.message);
 	}
 });
+router.get('/auth', (req, res) => {
+	const token = req.header('x-auth-user');
+	console.log(token);
+});
 
 //Get User -- Login
 router.get('/', async (req, res) => {

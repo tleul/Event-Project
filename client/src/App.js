@@ -8,34 +8,37 @@ import CategoriesDetails from './components/CategoryDetails';
 import EventForm from './components/Forms/EventForm';
 import Login from './components/auth/Login';
 import Signup from './components/auth/Signup';
-
+import store from './redux/store';
+import { Provider } from 'react-redux';
 function App() {
 	return (
 		<>
-			<BrowserRouter>
-				{' '}
-				<Navbar />
-				<div className='container mt-5'>
+			<Provider store={store}>
+				<BrowserRouter>
 					{' '}
-					<Switch>
-						<Route
-							path='/events/:id/:title'
-							component={EventDetails}
-						/>
-						<Route
-							path='/categories'
-							component={CategoriesDetails}
-						/>
-						<Route
-							path='/addevent/:new?/:id?'
-							component={EventForm}
-						/>
-						<Route path='/login' component={Login} />
-						<Route path='/signup' component={Signup} />{' '}
-						<Route path='/' component={Home} />
-					</Switch>
-				</div>
-			</BrowserRouter>
+					<Navbar />
+					<div className='container mt-5'>
+						{' '}
+						<Switch>
+							<Route
+								path='/events/:id/:title'
+								component={EventDetails}
+							/>
+							<Route
+								path='/categories'
+								component={CategoriesDetails}
+							/>
+							<Route
+								path='/addevent/:new?/:id?'
+								component={EventForm}
+							/>
+							<Route path='/login' component={Login} />
+							<Route path='/signup' component={Signup} />{' '}
+							<Route path='/' component={Home} />
+						</Switch>
+					</div>
+				</BrowserRouter>
+			</Provider>
 		</>
 	);
 }

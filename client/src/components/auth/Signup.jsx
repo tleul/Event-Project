@@ -1,13 +1,14 @@
 import React from 'react';
 import Input from '../ controls/Input';
 import { withRouter } from 'react-router';
-
-import { Redirect, Route } from 'react-router-dom';
+import { connect } from 'react-redux';
+// import { Redirect, Route } from 'react-router-dom';
 import { namefix, typefix } from '../../services/formServices';
 import { Link } from 'react-router-dom';
+import { PropTypes } from 'prop-types';
 import { validateUserSignUP } from '../../services/validate';
 import API from '../../services/api';
-
+import { loginuser } from '../../redux/actions/auth';
 //WARNING && ERROR
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -54,15 +55,12 @@ class Signup extends React.Component {
 	};
 	onsubmithandler = async (e) => {
 		e.preventDefault();
-
-		const admin = {
+		let admin = {
 			admin: this.state.admin,
 			adminPin: this.state.adminPin,
 		};
-		const body = { ...this.state.user, ...admin };
-		console.log(body, admin);
-		const response = await API.post('admin', body);
-		if (response.status === 200) this.props.history.push('/');
+
+		this.props.loginuser(this.state.user, admin);
 	};
 	onRadiocheck = (e) => {
 		this.setState({
@@ -85,6 +83,7 @@ class Signup extends React.Component {
 	};
 
 	render() {
+		if (this.props.isAuthenticated) this.props.history.push('/');
 		return (
 			<div className='border border-primary p-5 w-50 mx-auto  '>
 				<section className='text-center pb-10'>
@@ -163,5 +162,12 @@ class Signup extends React.Component {
 		);
 	}
 }
+Signup.propTypes = {
+	loginuser: PropTypes.func.isRequired,
+	isAuthenticated: PropTypes.bool.isRequired,
+};
+const mapStateToProps = (state) => ({
+	isAuthenticated: state.auth.isAuthenticated,
+});
 
-export default withRouter(Signup);
+export default connect(mapStateToProps, { loginuser })(Signup);
