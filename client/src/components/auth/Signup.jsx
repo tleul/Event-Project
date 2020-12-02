@@ -8,7 +8,7 @@ import { Link } from 'react-router-dom';
 import { PropTypes } from 'prop-types';
 import { validateUserSignUP } from '../../services/validate';
 import API from '../../services/api';
-import { loginuser } from '../../redux/actions/auth';
+import { registeruser } from '../../redux/actions/auth';
 //WARNING && ERROR
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -60,7 +60,7 @@ class Signup extends React.Component {
 			adminPin: this.state.adminPin,
 		};
 
-		this.props.loginuser(this.state.user, admin);
+		this.props.registeruser(this.state.user, admin);
 	};
 	onRadiocheck = (e) => {
 		this.setState({
@@ -163,11 +163,11 @@ class Signup extends React.Component {
 	}
 }
 Signup.propTypes = {
-	loginuser: PropTypes.func.isRequired,
+	registeruser: PropTypes.func.isRequired,
 	isAuthenticated: PropTypes.bool.isRequired,
 };
 const mapStateToProps = (state) => ({
 	isAuthenticated: state.auth.isAuthenticated,
 });
 
-export default connect(mapStateToProps, { loginuser })(Signup);
+export default connect(mapStateToProps, { registeruser })(Signup);

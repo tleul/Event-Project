@@ -38,13 +38,9 @@ router.post('/', async (req, res) => {
 		res.status(400).json(error.message);
 	}
 });
-router.get('/auth', (req, res) => {
-	const token = req.header('x-auth-user');
-	console.log(token);
-});
 
 //Get User -- Login
-router.get('/', async (req, res) => {
+router.post('/login', async (req, res) => {
 	const { email, password } = req.body;
 
 	const user = await User.findOne({ email });
@@ -57,7 +53,7 @@ router.get('/', async (req, res) => {
 
 	const token = generateToken(user);
 
-	return res.status(200).header('x-auth-user', token).json(user);
+	return res.status(200).header('x-auth-user', token).send(user);
 });
 
 //Delete User -- Remove

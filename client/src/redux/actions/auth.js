@@ -1,4 +1,5 @@
 import API from '../../services/api';
+import setAuthToken from '../../services/setAuthToken';
 import {
 	LOGINSUCCESS,
 	LOGINFAIL,
@@ -8,7 +9,7 @@ import {
 	LOADUSER,
 } from './types';
 
-export const loginuser = (user, admin) => async (dispatch) => {
+export const registeruser = (user, admin) => async (dispatch) => {
 	try {
 		const admininfo = {
 			admin: admin.admin,
@@ -17,7 +18,8 @@ export const loginuser = (user, admin) => async (dispatch) => {
 		const body = { ...user, ...admininfo };
 		console.log(body, admin);
 		const response = await API.post('admin', body);
-		localStorage.setItem('token', response.headers['x-auth-token']);
+		localStorage.setItem('token', response.headers['x-auth-user']);
+
 		dispatch({ type: REGISTERSUCCESS, payload: response.data });
 	} catch (error) {
 		console.log(error);
@@ -26,9 +28,19 @@ export const loginuser = (user, admin) => async (dispatch) => {
 
 export const logoutuser = () => {};
 
-export const registeruser = () => {};
+export const loginuser = (user) => async (dispatch) => {
+	try {
+		const response = await API.post('/admin/login', user);
+		localStorage.setItem('token', response.headers['x-auth-user']);
+		dispatch({ type: LOGINSUCCESS, payload: response.data });
+	} catch (error) {
+		console.log(error);
+	}
+};
 
 export const loaduser = () => async (dispatch) => {
+	let token = localStorage.getItem('token');
+	setAuthToken(token);
 	const response = await API.get('auth');
-	console.log(response);
+	dispatch({ type: LOADUSER, payload: response.data });
 };
