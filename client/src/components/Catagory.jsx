@@ -1,13 +1,13 @@
 import React from 'react';
 import { getCategories } from '../resources/fakeCategoryService';
 import { Link } from 'react-router-dom';
-import axios from 'axios';
+import API from '../services/api';
 class Catagory extends React.Component {
 	state = {
 		catagory: [],
 	};
 	async componentWillMount() {
-		const { data } = await axios.get('http://localhost:8000/api/catagory');
+		const { data } = await API.get('/catagory');
 
 		this.setState({ catagory: data });
 	}

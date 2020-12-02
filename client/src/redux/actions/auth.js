@@ -41,6 +41,6 @@ export const loginuser = (user) => async (dispatch) => {
 export const loaduser = () => async (dispatch) => {
 	let token = localStorage.getItem('token');
 	setAuthToken(token);
-	const response = await API.get('auth');
+	const response = await API.get('/auth');
 	dispatch({ type: LOADUSER, payload: response.data });
 };

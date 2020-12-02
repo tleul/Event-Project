@@ -26,6 +26,7 @@ class Login extends React.Component {
 		e.preventDefault();
 
 		const body = { ...this.state.user };
+
 		this.props.loginuser(body);
 	};
 
