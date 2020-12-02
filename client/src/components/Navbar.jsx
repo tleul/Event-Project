@@ -4,7 +4,7 @@ import { getCategories } from '../resources/fakeCategoryService';
 import { connect } from 'react-redux';
 import { PropTypes } from 'prop-types';
 import { loaduser } from '../redux/actions/auth';
-const Navbar = ({ loaduser }) => {
+const Navbar = ({ loaduser, isAuthenticated }) => {
 	useEffect(() => {
 		loaduser();
 	}, []);
@@ -53,8 +53,9 @@ const Navbar = ({ loaduser }) => {
 								<span className='sr-only'>(current)</span>
 							</Link>
 						</li>
-						{/* {this.props.isAuthenticated ? (
+						{!isAuthenticated ? (
 							<>
+								{' '}
 								<li className='nav-item active'>
 									<Link className='nav-link' to='/login'>
 										Login{' '}
@@ -73,13 +74,24 @@ const Navbar = ({ loaduser }) => {
 								</li>
 							</>
 						) : (
-							<li className='nav-item active'>
-								<Link className='nav-link' to='/signup'>
-									Logout{' '}
+							<>
+								<li className='nav-item active '>
+									<button
+										type='button'
+										className='btn btn-warning'>
+										<span
+											role='button'
+											tabindex='0'
+											className='nav-link '
+											onClick={() => console.log('hi')}>
+											Logout{' '}
+										</span>
+									</button>
+
 									<span className='sr-only'>(current)</span>
-								</Link>
-							</li>
-						)} */}
+								</li>{' '}
+							</>
+						)}
 					</ul>
 				</div>
 			</nav>
