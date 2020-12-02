@@ -3,8 +3,8 @@ import { Link } from 'react-router-dom';
 import { getCategories } from '../resources/fakeCategoryService';
 import { connect } from 'react-redux';
 import { PropTypes } from 'prop-types';
-import { loaduser } from '../redux/actions/auth';
-const Navbar = ({ loaduser, isAuthenticated }) => {
+import { loaduser, logoutuser } from '../redux/actions/auth';
+const Navbar = ({ loaduser, isAuthenticated, logoutuser, user }) => {
 	useEffect(() => {
 		loaduser();
 	}, []);
@@ -29,30 +29,39 @@ const Navbar = ({ loaduser, isAuthenticated }) => {
 					className='collapse navbar-collapse'
 					id='navbarSupportedContent'>
 					<ul className='navbar-nav mr-auto'>
-						<li className='nav-item active'>
+						<li className='nav-item pt-2 active'>
 							<Link className='nav-link' to='/'>
 								Events{' '}
 								<span className='sr-only'>(current)</span>
 							</Link>
 						</li>
-						<li className='nav-item active'>
+						{/* <li className='nav-item active'>
 							<Link className='nav-link' to='#'>
 								Customers{' '}
 								<span className='sr-only'>(current)</span>
 							</Link>
-						</li>
-						<li className='nav-item active'>
-							<Link className='nav-link' to='/categories'>
-								Add Categories{' '}
-								<span className='sr-only'>(current)</span>
-							</Link>
-						</li>
-						<li className='nav-item active'>
-							<Link className='nav-link' to='/addevent'>
-								Create Events{' '}
-								<span className='sr-only'>(current)</span>
-							</Link>
-						</li>
+						</li> */}
+						{isAuthenticated && user.admin && (
+							<>
+								{' '}
+								<li className='nav-item active'>
+									<Link className='nav-link' to='/categories'>
+										Add Categories{' '}
+										<span className='sr-only'>
+											(current)
+										</span>
+									</Link>
+								</li>
+								<li className='nav-item active'>
+									<Link className='nav-link' to='/addevent'>
+										Create Events{' '}
+										<span className='sr-only'>
+											(current)
+										</span>
+									</Link>
+								</li>{' '}
+							</>
+						)}
 						{!isAuthenticated ? (
 							<>
 								{' '}
@@ -75,21 +84,21 @@ const Navbar = ({ loaduser, isAuthenticated }) => {
 							</>
 						) : (
 							<>
-								<li className='nav-item active '>
+								<li className='nav-item  active'>
 									<button
 										type='button'
-										className='btn btn-warning'>
+										className='btn  outline-none btn-warning'>
 										<span
 											role='button'
-											tabindex='0'
+											tabIndex='0'
 											className='nav-link '
-											onClick={() => console.log('hi')}>
-											Logout{' '}
+											onClick={() => logoutuser()}>
+											Logout
 										</span>
 									</button>
 
 									<span className='sr-only'>(current)</span>
-								</li>{' '}
+								</li>
 							</>
 						)}
 					</ul>
@@ -101,9 +110,10 @@ const Navbar = ({ loaduser, isAuthenticated }) => {
 Navbar.propTypes = {
 	user: PropTypes.array,
 	loaduser: PropTypes.func.isRequired,
+	logoutuser: PropTypes.func.isRequired,
 };
 const mapStateToProps = (state) => ({
 	isAuthenticated: state.auth.isAuthenticated,
 	user: state.auth.user,
 });
-export default connect(mapStateToProps, { loaduser })(Navbar);
+export default connect(mapStateToProps, { loaduser, logoutuser })(Navbar);

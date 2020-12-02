@@ -26,7 +26,10 @@ export const registeruser = (user, admin) => async (dispatch) => {
 	}
 };
 
-export const logoutuser = () => {};
+export const logoutuser = () => (dispatch) => {
+	localStorage.removeItem('token');
+	dispatch({ type: LOGOUT });
+};
 
 export const loginuser = (user) => async (dispatch) => {
 	try {
@@ -41,6 +44,7 @@ export const loginuser = (user) => async (dispatch) => {
 export const loaduser = () => async (dispatch) => {
 	let token = localStorage.getItem('token');
 	setAuthToken(token);
+
 	const response = await API.get('/auth');
 	dispatch({ type: LOADUSER, payload: response.data });
 };
