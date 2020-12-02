@@ -4,7 +4,7 @@ const Radio = ({ onradiocheck, selected }) => {
 			<div className='form-group   text-center p-3 border border-info '>
 				<span className='position-sticky '>Is the Event Active</span>
 				<div>
-					<span class='badge badge-primary mr-3'>True</span>
+					<span className='badge badge-primary mr-3'>True</span>
 
 					<input
 						onChange={onradiocheck}
@@ -16,7 +16,7 @@ const Radio = ({ onradiocheck, selected }) => {
 				</div>
 
 				<div>
-					<span class='badge badge-primary  mr-3'>False</span>
+					<span className='badge badge-primary  mr-3'>False</span>
 
 					<input
 						onChange={onradiocheck}

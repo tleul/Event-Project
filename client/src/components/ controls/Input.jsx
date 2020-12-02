@@ -2,16 +2,16 @@ const Input = ({ type, name, value, lable, onchangehandler, error }) => {
 	return (
 		<>
 			<div className='form-group    mb-3'>
-				<label for='exampleInputEmail1'>{lable}</label>
+				<label for={lable}>{lable}</label>
 
 				<input
 					onChange={onchangehandler}
-					type={type}
+					type={name === 'password' ? 'password' : type}
 					name={name}
 					value={value}
 					className='form-control btn-outline-success text-black'
-					id='exampleInputEmail1'
-					placeholder={`Enter${lable.toLowerCase()}`}
+					id={lable}
+					placeholder={`Enter ${lable.toLowerCase()}`}
 				/>
 
 				{error && (

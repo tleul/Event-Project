@@ -9,9 +9,9 @@ const CategoryList = ({ options, categoryselector, error, value }) => {
 					<option>Choose...</option>
 					{options.map((option) => (
 						<option
-							key={option.categoryName}
-							value={option.categoryName}>
-							{option.categoryName}
+							key={option.category_Name}
+							value={option.category_Name}>
+							{option.category_Name}
 						</option>
 					))}
 				</select>

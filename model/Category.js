@@ -4,10 +4,11 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const CatagorySchema = new Schema({
-	categoryName: {
+	category_Name: {
 		type: String,
 	},
-	categoryDesc: {
+
+	category_Description: {
 		type: String,
 	},
 	active: {
@@ -19,8 +20,8 @@ const Catagory = mongoose.model('Catagory', CatagorySchema);
 
 const validateCatagory = (catagory) => {
 	const schema = Joi.object({
-		categoryName: Joi.string().min(3).required(),
-		categoryDesc: Joi.string().min(3).required(),
+		category_Name: Joi.string().min(3).required(),
+		category_Description: Joi.string().min(3).required(),
 		active: Joi.boolean().required(),
 	});
 	return schema.validate(catagory);
