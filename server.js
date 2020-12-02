@@ -9,11 +9,6 @@ require('dotenv').config();
 PORT = process.env.PORT || 8000;
 dbConnection();
 
-// const corsOptions = {
-// 	exposedHeaders: 'x-auth-user',
-// };
-
-// app.use(cors(corsOptions));
 app.use((req, res, next) => {
 	res.header('Access-Control-Allow-Credentials', true);
 	res.header(
