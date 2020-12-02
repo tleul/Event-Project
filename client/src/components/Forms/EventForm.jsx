@@ -52,7 +52,7 @@ class EventForm extends React.Component {
 	};
 	categoryselector = (e) => {
 		const category = this.state.category.filter(
-			(cat) => cat.categoryName === e.target.value,
+			(cat) => cat.category_Name === e.target.value,
 		);
 
 		this.setState({ event_category: category[0]._id });
@@ -74,6 +74,7 @@ class EventForm extends React.Component {
 	};
 	async componentDidMount() {
 		const { data } = await axios.get('http://localhost:8000/api/catagory');
+
 		this.setState({ category: data });
 	}
 	onsubmithandler = async (e) => {
@@ -86,7 +87,7 @@ class EventForm extends React.Component {
 		try {
 			const config = {
 				headers: {
-					ContentType: 'application/json',
+					'Content-Type': 'application/json',
 				},
 			};
 			const response = await axios.post(
