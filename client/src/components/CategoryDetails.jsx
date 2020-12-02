@@ -1,6 +1,6 @@
 import React from 'react';
 import { filterEvent, getEvents } from '../resources/fakeEventService';
-
+import API from '../services/api';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import CategoryForm from './Forms/CategoryForm';
@@ -14,7 +14,7 @@ class CategoriesDetails extends React.Component {
 	};
 
 	getCategories = async () => {
-		const { data } = await axios.get('http://localhost:8000/api/catagory');
+		const { data } = await API.get('catagory');
 		this.setState({ category: data });
 	};
 

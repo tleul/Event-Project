@@ -1,10 +1,12 @@
 import React from 'react';
 import Input from '../ controls/Input';
 import { namefix, typefix } from '../../services/formServices';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import { validateUser } from '../../services/validate';
 import API from '../../services/api';
-
+import { connect } from 'react-redux';
+import { PropTypes } from 'prop-types';
+import { loginuser } from '../../redux/actions/auth';
 class Login extends React.Component {
 	state = {
 		user: { email: '', password: '' },
@@ -16,23 +18,22 @@ class Login extends React.Component {
 		const user = { ...this.state.user };
 		user[name] = value.toLowerCase();
 		this.setState({ user });
-		const validate = validateUser(this.state.user);
+		const validate = validateUser(user);
 		if (validate) this.setState({ error: validate, notvalidated: true });
 		if (!validate) this.setState({ error: {}, notvalidated: false });
 	};
 	onsubmithandler = async (e) => {
 		e.preventDefault();
 
-		const body = this.state.user;
-		const response = await API.post('/admin', body);
+		const body = { ...this.state.user };
 
-		console.log(response);
+		this.props.loginuser(body);
 	};
-	onRadiocheck = (e) => {
-		this.setState({ admin: !this.state.admin });
-	};
+
 	render() {
-		console.log(this.state.admin);
+		if (this.props.isAuthenticated) {
+			return <Redirect to='/' />;
+		}
 		return (
 			<div className='border border-primary p-5 w-50 mx-auto  '>
 				<section className='text-center pb-10'>
@@ -84,5 +85,13 @@ class Login extends React.Component {
 		);
 	}
 }
-
-export default Login;
+Login.propTypes = {
+	isAuthenticated: PropTypes.bool.isRequired,
+	loginuser: PropTypes.func.isRequired,
+	user: PropTypes.array,
+};
+const mapStateToProps = (state) => ({
+	isAuthenticated: state.auth.isAuthenticated,
+	user: state.auth.user,
+});
+export default connect(mapStateToProps, { loginuser })(Login);

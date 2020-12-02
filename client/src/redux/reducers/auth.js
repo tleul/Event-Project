@@ -8,7 +8,6 @@ import {
 } from './../actions/types';
 
 const initialState = {
-	token: localStorage.getItem('token'),
 	isAuthenticated: false,
 	user: null,
 	loading: false,
@@ -23,7 +22,6 @@ export default (state = initialState, action) => {
 		case LOADUSER:
 			return {
 				...state,
-				token: localStorage.getItem('token'),
 				isAuthenticated: true,
 				user: payload,
 				loading: true,
@@ -33,7 +31,6 @@ export default (state = initialState, action) => {
 		case REGISTERFAIL:
 			return {
 				...state,
-				token: null,
 				isAuthenticated: false,
 				user: null,
 				loading: true,

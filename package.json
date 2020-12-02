@@ -5,9 +5,14 @@
   "main": "server.js",
   "scripts": {
     "client": "npm start --prefix client",
+    "build": "cd client && npm run build",
+    "install-client": "cd client && npm install",
+    "heroku-postbuild": " npm run install-client && npm run build",
     "server": "nodemon server",
+    "start":"node server.js",
     "dev": " concurrently -n 'server,client' \" npm run client\" \"npm run server\""
   },
+ 
   "keywords": [],
   "author": "",
   "license": "ISC",
@@ -26,5 +31,9 @@
     "mongoose": "^5.10.11",
     "morgan": "^1.10.0",
     "nodemon": "^2.0.6"
-  }
+  },
+  "engines": {
+		"node": "12.3.x",
+		"npm": "6.x"
+	}
 }
