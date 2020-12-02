@@ -17,7 +17,7 @@ export const registeruser = (user, admin) => async (dispatch) => {
 		};
 		const body = { ...user, ...admininfo };
 		console.log(body, admin);
-		const response = await API.post('admin', body);
+		const response = await API.post('/admin', body);
 		localStorage.setItem('token', response.headers['x-auth-user']);
 
 		dispatch({ type: REGISTERSUCCESS, payload: response.data });
@@ -26,7 +26,10 @@ export const registeruser = (user, admin) => async (dispatch) => {
 	}
 };
 
-export const logoutuser = () => {};
+export const logoutuser = () => (dispatch) => {
+	localStorage.removeItem('token');
+	dispatch({ type: LOGOUT });
+};
 
 export const loginuser = (user) => async (dispatch) => {
 	try {
@@ -41,6 +44,7 @@ export const loginuser = (user) => async (dispatch) => {
 export const loaduser = () => async (dispatch) => {
 	let token = localStorage.getItem('token');
 	setAuthToken(token);
+
 	const response = await API.get('/auth');
 	dispatch({ type: LOADUSER, payload: response.data });
 };

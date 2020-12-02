@@ -30,7 +30,7 @@ const EventSchema = new Schema({
 	},
 	event_category: {
 		type: mongoose.Types.ObjectId,
-		required: true,
+		ref: 'Catagory',
 	},
 });
 const Event = mongoose.model('Event', EventSchema);
