@@ -29,9 +29,39 @@ class CategoryForm extends React.Component {
 		radioCheck: true,
 		active: true,
 	};
-	onchangehandler = ({ currentTarget: input }) => {};
-
+	onsubmithandler = async () => {
+		const active = this.state.active;
+		const body = {
+			...this.state.category,
+			active,
+		};
+		const config = {
+			headers: {
+				'Content-Type': 'application/json',
+			},
+		};
+		try {
+			const response = await axios.post(
+				'http://localhost:8000/api/catagory',
+				body,
+			);
+			if (response.status === 200) {
+				this.props.getCategories();
+			}
+		} catch (error) {
+			console.log(error.message);
+		}
+	};
+	onchangehandler = ({ currentTarget: input }) => {
+		const category = { ...this.state.category };
+		category[input.name] = input.value;
+		this.setState({ category });
+	};
+	onradiocheck = (e) => {
+		this.setState({ active: e.target.value === 'true' ? true : false });
+	};
 	render() {
+		console.log(this.state.category);
 		return (
 			<>
 				<div className='border border-primary p-5 w-50 mx-auto  '>
@@ -71,12 +101,19 @@ class CategoryForm extends React.Component {
 							selected={this.state.active}
 							onradiocheck={this.onradiocheck}
 						/>
-						<div className='text-center'>
+						<div className='text-center '>
 							<button
+								onClick={this.onsubmithandler}
 								disabled={this.state.disableSubmit}
-								type='submit'
-								className='btn-primary btn-lg btn text-center'>
+								type='button'
+								className='btn-primary mr-5 btn-lg btn text-center'>
 								Save
+							</button>{' '}
+							<button
+								onClick={this.props.togglecategory}
+								type='submit'
+								className='btn-danger  btn-lg btn text-center'>
+								X Close
 							</button>
 						</div>
 					</form>

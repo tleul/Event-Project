@@ -34,7 +34,7 @@ router.post('/', async (req, res) => {
 			event_category,
 		});
 		const response = await event.save();
-		console.log(response);
+
 		return res.status(200).json(response);
 	} catch (error) {
 		console.log(error);

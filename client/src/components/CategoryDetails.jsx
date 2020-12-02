@@ -1,31 +1,25 @@
 import React from 'react';
 import { filterEvent, getEvents } from '../resources/fakeEventService';
-import { getCategories } from '../resources/fakeCategoryService';
+
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import CategoryForm from './Forms/CategoryForm';
 class CategoriesDetails extends React.Component {
 	state = {
-		category: '',
+		category: [],
+		toggleCategoryForm: false,
 	};
-	addCategory = async () => {
-		const body = {
-			categoryName: 'Woow',
-			categoryDesc: 'Foot ball',
-			active: true,
-		};
-
-		const res = await axios.post(
-			'http://localhost:8000/api/catagory',
-			body,
-		);
-		const category = [res.data, ...this.state.category];
-		this.setState({ category });
+	togglecategory = () => {
+		this.setState({ toggleCategoryForm: !this.state.toggleCategoryForm });
 	};
 
-	async componentDidMount() {
+	getCategories = async () => {
 		const { data } = await axios.get('http://localhost:8000/api/catagory');
-		console.log('yes');
 		this.setState({ category: data });
+	};
+
+	componentWillMount() {
+		this.getCategories();
 	}
 
 	deleteCategory = async (id) => {
@@ -41,21 +35,29 @@ class CategoriesDetails extends React.Component {
 		console.log(this.state.category);
 		return (
 			<>
+				{this.state.toggleCategoryForm && (
+					<CategoryForm
+						getCategories={this.getCategories}
+						togglecategory={this.togglecategory}
+					/>
+				)}
 				<table className='table'>
 					<thead>
 						<th>Title</th>
 						<th>
-							<button
-								onClick={this.addCategory}
-								className='btn-success mt-2 btn-sm '>
-								Add Category
-							</button>
+							{!this.state.toggleCategoryForm && (
+								<button
+									onClick={this.togglecategory}
+									className='btn-success mt-2 btn-sm '>
+									Add Category
+								</button>
+							)}
 						</th>
 					</thead>
 					<tbody>
-						{/* {this.state.category.map((cat) => (
+						{this.state.category.map((cat) => (
 							<tr key={cat._id}>
-								<td>{cat.categoryName}</td>
+								<td>{cat.category_Name}</td>
 								<td>
 									<button className='btn-primary mt-2 btn-sm '>
 										Update
@@ -71,7 +73,7 @@ class CategoriesDetails extends React.Component {
 									</button>
 								</td>
 							</tr>
-						))} */}
+						))}
 					</tbody>
 				</table>
 			</>
