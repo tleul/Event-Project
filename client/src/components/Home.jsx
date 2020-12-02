@@ -54,6 +54,11 @@ class Home extends React.Component {
 					)}
 					{this.props.loadingEvent ? (
 						<Events
+							admin={
+								this.props.isAuthenticated
+									? this.props.user.admin
+									: false
+							}
 							event={this.props.event}
 							category={this.state.category}
 							deleteEvent={this.deleteEvent}

@@ -47,15 +47,19 @@ class Events extends React.Component {
 								<td>
 									{event.child_Ticket_Price_number + ' USD'}
 								</td>
-								<td>
-									<button
-										onClick={() =>
-											this.props.deleteEvent(event._id)
-										}
-										className='btn-danger mt-2 btn-sm '>
-										Delete
-									</button>
-								</td>
+								{this.props.admin && (
+									<td>
+										<button
+											onClick={() =>
+												this.props.deleteEvent(
+													event._id,
+												)
+											}
+											className='btn-danger mt-2 btn-sm '>
+											Delete
+										</button>
+									</td>
+								)}
 							</tr>
 						))}
 					</tbody>
