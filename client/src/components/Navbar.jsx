@@ -1,8 +1,13 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { getCategories } from '../resources/fakeCategoryService';
-
-const Navbar = () => {
+import { connect } from 'react-redux';
+import { PropTypes } from 'prop-types';
+import { loaduser } from '../redux/actions/auth';
+const Navbar = ({ loaduser }) => {
+	useEffect(() => {
+		loaduser();
+	}, []);
 	return (
 		<>
 			<nav className='navbar navbar-expand-lg navbar-light bg-light'>
@@ -25,7 +30,7 @@ const Navbar = () => {
 					id='navbarSupportedContent'>
 					<ul className='navbar-nav mr-auto'>
 						<li className='nav-item active'>
-							<Link className='nav-link' to='#'>
+							<Link className='nav-link' to='/'>
 								Events{' '}
 								<span className='sr-only'>(current)</span>
 							</Link>
@@ -48,11 +53,45 @@ const Navbar = () => {
 								<span className='sr-only'>(current)</span>
 							</Link>
 						</li>
+						{/* {this.props.isAuthenticated ? (
+							<>
+								<li className='nav-item active'>
+									<Link className='nav-link' to='/login'>
+										Login{' '}
+										<span className='sr-only'>
+											(current)
+										</span>
+									</Link>
+								</li>
+								<li className='nav-item active'>
+									<Link className='nav-link' to='/signup'>
+										Signup{' '}
+										<span className='sr-only'>
+											(current)
+										</span>
+									</Link>
+								</li>
+							</>
+						) : (
+							<li className='nav-item active'>
+								<Link className='nav-link' to='/signup'>
+									Logout{' '}
+									<span className='sr-only'>(current)</span>
+								</Link>
+							</li>
+						)} */}
 					</ul>
 				</div>
 			</nav>
 		</>
 	);
 };
-
-export default Navbar;
+Navbar.propTypes = {
+	user: PropTypes.array,
+	loaduser: PropTypes.func.isRequired,
+};
+const mapStateToProps = (state) => ({
+	isAuthenticated: state.auth.isAuthenticated,
+	user: state.auth.user,
+});
+export default connect(mapStateToProps, { loaduser })(Navbar);
