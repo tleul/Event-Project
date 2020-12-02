@@ -6,7 +6,7 @@ import {
 } from './../actions/types';
 
 const initialState = {
-	event: null,
+	event: [],
 	loading: false,
 };
 
@@ -18,6 +18,7 @@ export default (state = initialState, action) => {
 		case EVENTDELETESUCCESS:
 		case EVENTUPDATESUCCESS:
 		case LOADEVENT:
+			console.log('payload', payload);
 			return {
 				...state,
 				event: payload,

@@ -1,39 +1,35 @@
+import { filter } from 'lodash';
 import React from 'react';
-import { getCategories } from '../resources/fakeCategoryService';
+import { connect } from 'react-redux';
+import { PropTypes } from 'prop-types';
 import { Link } from 'react-router-dom';
-import API from '../services/api';
-class Catagory extends React.Component {
-	state = {
-		catagory: [],
-	};
-	async componentWillMount() {
-		const { data } = await API.get('/catagory');
+import { filterevent, loadevent } from '../redux/actions/event';
 
-		this.setState({ catagory: data });
-	}
+class Catagory extends React.Component {
+	filterEvent = (categoryId) => {
+		this.props.filterevent(categoryId);
+	};
+	getallevent = () => {
+		this.props.loadevent();
+	};
 	render() {
 		return (
 			<div className='pr-5'>
-				<ul className='list-group text-decoration-none'>
+				<ul className='list-group text-decoration-none '>
 					<li className='list-group-item active text-center'>
 						Catagory
 					</li>
-					<li className='list-group-item text-center '>
-						<ul>
-							<li
-								onClick={() =>
-									this.props.filterEvent(null, false)
-								}
-								className='text-dark   text-decoration-none'>
-								All Catagory
-							</li>
-						</ul>
-					</li>
-					{this.state.catagory.map((cata) => (
+					<Link>
+						<li
+							onClick={() => this.getallevent()}
+							className=' list-group-item text-dark text-center'>
+							All Category
+						</li>
+					</Link>
+
+					{this.props.category.map((cata) => (
 						<Link
-							onClick={() =>
-								this.props.filterEvent(cata._id, true)
-							}
+							onClick={() => this.filterEvent(cata._id)}
 							className='text-dark text-decoration-none'>
 							<li class='list-group-item text-center'>
 								{cata.category_Name}
@@ -45,5 +41,7 @@ class Catagory extends React.Component {
 		);
 	}
 }
-
-export default Catagory;
+Catagory.propTypes = {
+	filterevent: PropTypes.func.isRequired,
+};
+export default connect(null, { filterevent, loadevent })(Catagory);

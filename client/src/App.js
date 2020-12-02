@@ -9,6 +9,7 @@ import EventForm from './components/Forms/EventForm';
 import Login from './components/auth/Login';
 import Signup from './components/auth/Signup';
 import store from './redux/store';
+import { ToastContainer } from 'react-toastify';
 import { Provider } from 'react-redux';
 function App() {
 	return (
@@ -17,6 +18,7 @@ function App() {
 				<BrowserRouter>
 					{' '}
 					<Navbar />
+					<ToastContainer />;
 					<div className='container mt-5'>
 						{' '}
 						<Switch>
