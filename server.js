@@ -8,9 +8,8 @@ const dbConnection = require('./dbConnection/db');
 require('dotenv').config();
 PORT = process.env.PORT || 8000;
 dbConnection();
-
+app.use(cors());
 app.use((req, res, next) => {
-	res.header('Access-Control-Allow-Credentials', true);
 	res.header(
 		'Access-Control-Allow-Methods',
 		'PUT, POST, GET, DELETE, OPTIONS',
@@ -27,7 +26,10 @@ app.use(morgan('tiny'));
 // app.get('/', (req, res) => {
 // 	res.send('hi');
 // });
-
+module.exports = function (app) {
+	// add other server routes to path array
+	app.use(proxy(['/api'], { target: 'http://localhost:8000' }));
+};
 app.use('/api/customer', require('./route/customer'));
 app.use('/api/catagory', require('./route/catagory'));
 app.use('/api/event', require('./route/event'));
