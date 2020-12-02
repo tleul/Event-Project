@@ -17,8 +17,8 @@ class Events extends React.Component {
 		// return result[0].category_Name;
 	};
 	getData = async () => {
-		const response = await API.get('event');
-		const responseTwo = await API.get('catagory');
+		const response = await API.get('/event');
+		const responseTwo = await API.get('/catagory');
 		console.log(response);
 
 		this.setState({ events: response.data, category: responseTwo.data });

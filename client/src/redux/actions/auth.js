@@ -17,7 +17,7 @@ export const registeruser = (user, admin) => async (dispatch) => {
 		};
 		const body = { ...user, ...admininfo };
 		console.log(body, admin);
-		const response = await API.post('admin', body);
+		const response = await API.post('/admin', body);
 		localStorage.setItem('token', response.headers['x-auth-user']);
 
 		dispatch({ type: REGISTERSUCCESS, payload: response.data });
