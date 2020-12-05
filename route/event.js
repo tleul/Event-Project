@@ -34,7 +34,7 @@ router.post('/', async (req, res) => {
 			event_category,
 		});
 		const response = await event.save();
-		console.log(response);
+
 		return res.status(200).json(response);
 	} catch (error) {
 		console.log(error);
@@ -43,7 +43,7 @@ router.post('/', async (req, res) => {
 //auth,
 // //Get Events
 router.get('/', async (req, res) => {
-	const events = await Event.find().sort('active');
+	const events = await Event.find().populate('event_category');
 	res.status(200).json(events);
 });
 router.get('/:id', async (req, res) => {
@@ -52,7 +52,7 @@ router.get('/:id', async (req, res) => {
 });
 
 //Delete Customer
-router.delete('/:id', [auth, admin], async (req, res) => {
+router.delete('/:id', async (req, res) => {
 	const event = await Event.findByIdAndDelete(req.params.id);
 	res.status(200).json({ msg: 'Event Deleted' });
 });

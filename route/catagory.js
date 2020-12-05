@@ -7,17 +7,18 @@ const router = express.Router();
 //Create Catagory
 //TODO [auth, admin],
 router.post('/', async (req, res) => {
-	const { categoryName, categoryDesc, active } = req.body;
+	const { category_Name, category_Description, active } = req.body;
+
 	const { error } = validateCatagory(req.body);
-	const catagory = await Catagory.findOne({ categoryName });
+	const catagory = await Catagory.findOne({ category_Name });
 	try {
 		if (error || catagory)
 			return res.status(400).json({
 				msg: error ? error : 'The catagory name is already Exist',
 			});
 		const newcatagory = new Catagory({
-			categoryName,
-			categoryDesc,
+			category_Name,
+			category_Description,
 			active,
 		});
 		const response = await newcatagory.save();
@@ -31,7 +32,6 @@ router.post('/', async (req, res) => {
 //Get Catagory
 router.get('/', async (req, res) => {
 	const category = await Catagory.find();
-	console.log(category);
 	return res.status(200).json(category);
 });
 
