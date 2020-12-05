@@ -18,7 +18,6 @@ export default (state = initialState, action) => {
 		case CATEGORYDELETESUCCESS:
 		case CATEGORYUPDATESUCCESS:
 		case LOADCATEGORY:
-			console.log('category', payload);
 			return {
 				...state,
 				category: payload,
