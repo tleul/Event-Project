@@ -10,7 +10,7 @@ const Navbar = ({ loaduser, isAuthenticated, logoutuser, user }) => {
 	}, []);
 	return (
 		<>
-			<nav className='navbar navbar-expand-lg navbar-light bg-light'>
+			<nav className='navbar navbar-expand-lg navbar-light  bg-primary'>
 				<Link className='navbar-brand' to='/'>
 					Navbar LOGO
 				</Link>
@@ -28,13 +28,15 @@ const Navbar = ({ loaduser, isAuthenticated, logoutuser, user }) => {
 				<div
 					className='collapse navbar-collapse'
 					id='navbarSupportedContent'>
-					<ul className='navbar-nav mr-auto'>
-						<li className='nav-item pt-2 active'>
-							<Link className='nav-link' to='/'>
-								Events{' '}
-								<span className='sr-only'>(current)</span>
-							</Link>
-						</li>
+					<ul className='navbar-nav  mr-auto'>
+						<>
+							<li className='nav-item  active'>
+								<Link className='nav-link' to='/'>
+									Events{' '}
+									<span className='sr-only'>(current)</span>
+								</Link>
+							</li>
+						</>
 						{/* <li className='nav-item active'>
 							<Link className='nav-link' to='#'>
 								Customers{' '}
@@ -73,7 +75,7 @@ const Navbar = ({ loaduser, isAuthenticated, logoutuser, user }) => {
 										</span>
 									</Link>
 								</li>
-								<li className='nav-item active'>
+								<li className='nav-item active pl-'>
 									<Link className='nav-link' to='/signup'>
 										Signup{' '}
 										<span className='sr-only'>
@@ -84,18 +86,16 @@ const Navbar = ({ loaduser, isAuthenticated, logoutuser, user }) => {
 							</>
 						) : (
 							<>
-								<li className='nav-item  active'>
-									<button
-										type='button'
-										className='btn  outline-none btn-warning'>
+								<li className='nav-item bg-primary   active'>
+									<Link>
 										<span
 											role='button'
 											tabIndex='0'
-											className='nav-link '
+											className='nav-link text-white text-bold '
 											onClick={() => logoutuser()}>
 											Logout
 										</span>
-									</button>
+									</Link>
 
 									<span className='sr-only'>(current)</span>
 								</li>
