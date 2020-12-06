@@ -37,3 +37,20 @@ export const deleteevent = (eventId) => async (dispatch) => {
 		});
 	}
 };
+
+export const addevent = (body) => async (dispatch) => {
+	try {
+		const config = {
+			headers: {
+				'Content-Type': 'application/json',
+			},
+		};
+		const response = await API.post(
+			'http://localhost:8000/api/event',
+			body,
+		);
+		return response.status === 200;
+	} catch (error) {
+		console.log(error);
+	}
+};

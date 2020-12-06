@@ -18,7 +18,6 @@ export default (state = initialState, action) => {
 		case EVENTDELETESUCCESS:
 		case EVENTUPDATESUCCESS:
 		case LOADEVENT:
-			console.log('payload', payload);
 			return {
 				...state,
 				event: payload,

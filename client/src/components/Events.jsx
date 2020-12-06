@@ -34,7 +34,7 @@ class Events extends React.Component {
 						{this.props.event.map((event) => (
 							<tr key={event._id}>
 								<td>
-									<Link to={`/addevent/true/${event._id}`}>
+									<Link to={`/addevent/false/${event._id}`}>
 										{event.event_Name}
 									</Link>
 								</td>
