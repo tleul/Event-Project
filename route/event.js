@@ -53,56 +53,43 @@ router.get('/:id', async (req, res) => {
 
 //Delete Customer
 router.delete('/:id', async (req, res) => {
-	const event = await Event.findByIdAndDelete(req.params.id);
-	res.status(200).json({ msg: 'Event Deleted' });
+	try {
+		const event = await Event.findByIdAndDelete(req.params.id);
+		return res.status(200).json({ msg: 'Event Deleted' });
+	} catch (error) {}
 });
 
 // //Update Event
 
-router.put('/:id', [auth, admin], async (req, res) => {
-	const {
-		eventName,
-		eventDescription,
-		eventLocation,
-		active,
-		adultTicketPrice,
-		childTicketPrice,
-		catagoryId,
-	} = req.body;
-	const event = await Event.findById(req.params.id);
+router.put('/:id', async (req, res) => {
+	try {
+		const {
+			event_Name,
+			event_Description,
+			event_Location,
+			adult_Ticket_Price_number,
+			child_Ticket_Price_number,
+			event_category,
+			active,
+		} = req.body;
 
-	const updateEvent = {
-		eventName: eventName ? eventName : event.eventName,
-		eventDescription: eventDescription
-			? eventDescription
-			: event.eventDescription,
-		eventLocation: eventLocation ? eventLocation : event.eventLocation,
-		active: active ? active : event.active,
-		adultTicketPrice: adultTicketPrice
-			? adultTicketPrice
-			: event.adultTicketPrice,
-		childTicketPrice: childTicketPrice
-			? childTicketPrice
-			: event.childTicketPrice,
-		catagoryId: catagoryId ? catagoryId : event.catagoryId,
-	};
-
-	const updatedevent = await Event.findByIdAndUpdate(
-		req.params.id,
-		{
-			$set: {
-				eventName: updateEvent.eventName,
-				eventDescription: updateEvent.eventDescription,
-				eventLocation: updateEvent.eventLocation,
-				active: updateEvent.active,
-				adultTicketPrice: updateEvent.adultTicketPrice,
-				childTicketPrice: updateEvent.childTicketPrice,
-				catagoryId: updateEvent.catagoryId,
+		const updatedevent = await Event.findByIdAndUpdate(
+			req.params.id,
+			{
+				$set: {
+					event_Name,
+					event_Description,
+					event_Location,
+					adult_Ticket_Price_number,
+					child_Ticket_Price_number,
+					event_category,
+					active,
+				},
 			},
-		},
-		{ new: true },
-	);
+			{ new: true },
+		);
 
-	res.status(200).json(updatedevent);
+		return res.status(200).json(updatedevent);
+	} catch (error) {}
 });
 module.exports = router;

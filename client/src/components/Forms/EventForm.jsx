@@ -9,10 +9,12 @@ import { validateEventForm } from '../../services/validate';
 import { errors } from 'joi-browser';
 import Radio from '../ controls/Radio';
 import { Redirect } from 'react-router-dom';
-
+import { connect } from 'react-redux';
+import { PropTypes } from 'prop-types';
+import { addevent } from '../../redux/actions/event';
+import { loadcategory } from '../../redux/actions/category';
 class EventForm extends React.Component {
 	state = {
-		category: [],
 		event: {
 			event_Name: '',
 			event_Description: '',
@@ -51,20 +53,21 @@ class EventForm extends React.Component {
 		this.setState({ active: e.target.value === 'true' ? true : false });
 	};
 	categoryselector = (e) => {
-		const category = this.state.category.filter(
+		const category = this.props.category.filter(
 			(cat) => cat.category_Name === e.target.value,
 		);
 
 		this.setState({ event_category: category[0]._id });
 		const validate = validateEventForm({ event_category: e.target.value });
 
-		if (validate.event_category) {
+		if (validate) {
 			const errors = this.state.errors;
 			errors.event_category = validate.event_category;
 			this.setState({ errors });
 			this.setState({ disableSubmit: true });
 		}
-		if (!validate.event_category) {
+
+		if (!validate) {
 			const errors = this.state.errors;
 			delete errors.event_category;
 
@@ -72,41 +75,19 @@ class EventForm extends React.Component {
 			this.setState({ disableSubmit: false });
 		}
 	};
-	async componentDidMount() {
-		const { data } = await axios.get('http://localhost:8000/api/catagory');
-
-		this.setState({ category: data });
+	componentDidMount() {
+		this.props.loadcategory();
 	}
 	onsubmithandler = async (e) => {
 		e.preventDefault();
+
 		const body = {
 			...this.state.event,
 			event_category: this.state.event_category,
 			active: this.state.active,
 		};
-		try {
-			const config = {
-				headers: {
-					'Content-Type': 'application/json',
-				},
-			};
-			const response = await axios.post(
-				'http://localhost:8000/api/event',
-				body,
-			);
-
-			if (response.status === 200) {
-				this.props.history.push('/');
-			}
-		} catch (error) {
-			if (error.response.status === 400) {
-				let errors = this.state.errors;
-				let filedname = error.response.data.details[0].path[0];
-				errors[filedname] = error.response.data.details[0].message;
-				this.setState({ disableSubmit: true });
-				this.setState({ errors });
-			}
-		}
+		const result = await this.props.addevent(body);
+		if (result) return this.props.history.push('/');
 	};
 	getEventData = async () => {
 		let id = this.props.match.params.id;
@@ -133,7 +114,7 @@ class EventForm extends React.Component {
 		this.setState({ event, active, event_category });
 	};
 	componentWillMount() {
-		if (this.props.match.params.new) this.getEventData();
+		if (this.props.match.params.new === 'false') this.getEventData();
 	}
 	render() {
 		return (
@@ -180,7 +161,7 @@ class EventForm extends React.Component {
 							value={this.state.event_category}
 							error={this.state.errors.event_category}
 							categoryselector={this.categoryselector}
-							options={this.state.category}
+							options={this.props.category}
 						/>
 						<div className='text-center'>
 							<button
@@ -196,5 +177,15 @@ class EventForm extends React.Component {
 		);
 	}
 }
+EventForm.propTypes = {
+	addevent: PropTypes.func.isRequired,
+	category: PropTypes.array,
+	loadcategory: PropTypes.func.isRequired,
+};
+const mapStateToProps = (state) => ({
+	category: state.category.category,
+});
 
-export default withRouter(EventForm);
+export default connect(mapStateToProps, { addevent, loadcategory })(
+	withRouter(EventForm),
+);

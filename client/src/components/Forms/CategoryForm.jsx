@@ -8,7 +8,10 @@ import { namefix, typefix } from '../../services/formServices';
 import { validateEventForm } from '../../services/validate';
 import { errors } from 'joi-browser';
 import Radio from '../ controls/Radio';
+import { connect } from 'react-redux';
+import { PropTypes } from 'prop-types';
 import { Redirect } from 'react-router-dom';
+import { loadcategory } from '../../redux/actions/category';
 // categoryName: {
 // 		type: String,
 // 	},
@@ -46,7 +49,7 @@ class CategoryForm extends React.Component {
 				body,
 			);
 			if (response.status === 200) {
-				this.props.getCategories();
+				this.props.loadcategory();
 			}
 		} catch (error) {
 			console.log(error.message);
@@ -122,5 +125,11 @@ class CategoryForm extends React.Component {
 		);
 	}
 }
+CategoryForm.propTypes = {
+	loadcategory: PropTypes.func.isRequired,
+};
+const mapStateToProps = (state) => ({});
 
-export default withRouter(CategoryForm);
+export default connect(mapStateToProps, { loadcategory })(
+	withRouter(CategoryForm),
+);
