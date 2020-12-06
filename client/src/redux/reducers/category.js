@@ -6,7 +6,7 @@ import {
 } from './../actions/types';
 
 const initialState = {
-	category: null,
+	category: [],
 	loading: false,
 };
 
@@ -18,7 +18,7 @@ export default (state = initialState, action) => {
 		case CATEGORYDELETESUCCESS:
 		case CATEGORYUPDATESUCCESS:
 		case LOADCATEGORY:
-			console.log('category', payload);
+			console.log('payload', payload);
 			return {
 				...state,
 				category: payload,

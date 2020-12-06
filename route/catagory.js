@@ -2,6 +2,7 @@ const express = require('express');
 const auth = require('../modules/auth');
 const admin = require('../modules/admin');
 const { Catagory, validateCatagory } = require('../model/Category');
+const { Event } = require('../model/Events');
 const router = express.Router();
 
 //Create Catagory
@@ -37,9 +38,26 @@ router.get('/', async (req, res) => {
 
 //Delete Catagory -- Remove[auth, admin]
 router.delete('/:id', async (req, res) => {
-	const catagory = await Catagory.findByIdAndDelete(req.params.id);
+	try {
+		const events = await Event.find({
+			event_category: { _id: req.params.id },
+		}).populate('event_category');
+		if (events.length > 0) {
+			return res.status(400).send({
+				msg:
+					'You have an Event with this Category! in order to delete this category you need to delete the event associated with this category ',
+			});
+		}
+		const catagory = await Catagory.findByIdAndDelete(req.params.id);
 
-	return res.status(200).json(catagory);
+		return res.status(200).json(catagory);
+	} catch (error) {
+		console.log(error);
+	}
+
+	// const catagory = await Catagory.findByIdAndDelete(req.params.id);
+
+	// return res.status(200).json(catagory);
 });
 
 //Update Catagory -- Update  Information[auth, admin]

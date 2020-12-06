@@ -34,7 +34,6 @@ class Home extends React.Component {
 	}
 
 	render() {
-		console.log(this.props.category);
 		return (
 			<>
 				{this.props.isAuthenticated && (

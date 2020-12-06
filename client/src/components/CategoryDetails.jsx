@@ -1,45 +1,32 @@
 import React from 'react';
 import { filterEvent, getEvents } from '../resources/fakeEventService';
 import API from '../services/api';
+import { connect } from 'react-redux';
+import { PropTypes } from 'prop-types';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import CategoryForm from './Forms/CategoryForm';
+import AlertMessage from './erroralert/AlertMessage';
+import { deletecategory, loadcategory } from '../redux/actions/category';
 class CategoriesDetails extends React.Component {
 	state = {
-		category: [],
 		toggleCategoryForm: false,
 	};
 	togglecategory = () => {
 		this.setState({ toggleCategoryForm: !this.state.toggleCategoryForm });
 	};
-
-	getCategories = async () => {
-		const { data } = await API.get('catagory');
-		this.setState({ category: data });
-	};
-
 	componentWillMount() {
-		this.getCategories();
+		this.props.loadcategory();
 	}
-
 	deleteCategory = async (id) => {
-		//I used Optimistic
-		const category = this.state.category.filter((cat) => cat._id !== id);
-		this.setState({ category });
-		const res = await axios.delete(
-			`http://localhost:8000/api/catagory/${id}`,
-		);
+		this.props.deletecategory(id);
 	};
 	updateCategory = () => {};
 	render() {
-		console.log(this.state.category);
 		return (
 			<>
 				{this.state.toggleCategoryForm && (
-					<CategoryForm
-						getCategories={this.getCategories}
-						togglecategory={this.togglecategory}
-					/>
+					<CategoryForm togglecategory={this.togglecategory} />
 				)}
 				<table className='table'>
 					<thead>
@@ -55,7 +42,7 @@ class CategoriesDetails extends React.Component {
 						</th>
 					</thead>
 					<tbody>
-						{this.state.category.map((cat) => (
+						{this.props.category.map((cat) => (
 							<tr key={cat._id}>
 								<td>{cat.category_Name}</td>
 								<td>
@@ -80,5 +67,14 @@ class CategoriesDetails extends React.Component {
 		);
 	}
 }
-
-export default CategoriesDetails;
+CategoriesDetails.propTypes = {
+	deletecategory: PropTypes.func.isRequired,
+	loadcategory: PropTypes.func.isRequired,
+};
+const mapStateToProps = (state) => ({
+	category: state.category.category,
+	loading: state.category.loading,
+});
+export default connect(mapStateToProps, { deletecategory, loadcategory })(
+	CategoriesDetails,
+);
